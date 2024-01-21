@@ -1,25 +1,42 @@
 {% extends 'app/default.html' %}
 
+{% block title %}Поиск публикации{% endblock %}
+
+
 {% block content %}
-  <h1> Поиск </h1>
-  <form method="get">
-    {{ filter.form.as_p }}
-    <button type="submit">Найти</button>
-  </form>
-{% block title %}
-Article
-{% endblock title %}
+  <div class="features">
+        <h1>Поиск публикации</h1>
+        <form action="" method="get">
+            {% csrf_token %}
 
-{{ Post }}
+            {{ filter.form.as_p }}
 
+     {% if article %}
+            {% for el in article %}
+                    <div class="alert alert-warning">
+                    <h3>{{ el.title }}</h3>
+                    <p>{{ el.text|safe|truncatechars:20 }}</p>
+                        <p>{{el.author}}</p>
+                        <a href="{% url 'detail' el.id %}" class="btn btn-warning">Читать дальше</a>
+                    </div>
+            {% endfor %}
+        {% else %}
+            <p> Ничего нету !</p>
+        {% endif %}
 
-  {% if Post_list %}
-    <ul>
-      {% for Post in app_list %}
-        <li>{{ Article.title }} </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>Ничего не найдено</p>
-  {% endif %}
+       {% if page_obj.has_previous %}
+           {% if page_obj.previous_page_number != 1 %}
+               ...
+           {% endif %}
+       {% endif %}
+
+       {{ page_obj.number }}
+
+       {% if page_obj.has_next %}
+           {% if paginator.num_pages != page_obj.next_page_number %}
+               ...
+           {% endif %}
+       {% endif %}
+    </div>
 {% endblock %}
+

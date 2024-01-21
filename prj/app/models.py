@@ -16,10 +16,16 @@ class Article (models.Model):
         ('potion', 'Зельевары'),
         ('spellmasters', 'Мастера заклинаний'),
     )
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=64)
     text = RichTextField()
     category = models.CharField(max_length=16, choices=TYPE, default='tank')
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return f'/app/{self.id}'
 
 
 class UserResponse(models.Model):
@@ -27,6 +33,9 @@ class UserResponse(models.Model):
     text = models.TextField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
+
+
+
 
 
 # Create your models here.

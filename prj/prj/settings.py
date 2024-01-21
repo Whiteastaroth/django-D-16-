@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
 
+
     'app',
     'ckeditor',
+    'django_filters',
 ]
 
 SITE_ID = 1

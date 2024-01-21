@@ -3,8 +3,8 @@
 
 {% block title %}
 
-<p>{{ Post.author  }}</p>
-<h3>{{ Post.title }}</h3>
-<p>{{ Post.text }} </p>
+<h3>{{ article.title }}</h3>
+<p>{{ article.text|safe }}</p>
+<p>{{ article.author  }}</p>
 {% endblock %}
 
