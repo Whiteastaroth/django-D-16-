@@ -18,7 +18,7 @@ class Article (models.Model):
     )
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=64)
-    text = RichTextField()
+    text = RichTextField(blank=True, null=True)
     category = models.CharField(max_length=16, choices=TYPE, default='tank')
 
     def __str__(self):

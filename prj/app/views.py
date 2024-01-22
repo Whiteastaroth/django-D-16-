@@ -1,10 +1,10 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import permission_required
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .forms import ArticleForm
-#from .filters import ArticleFilter
 from .models import Article
 from django.urls import reverse_lazy
 
@@ -18,7 +18,7 @@ class ArticleList(ListView):
 
 class ArticleDetailView(DetailView):
     model = Article
-    template_name = 'app/detail.html'
+    template_name = 'app/article_id.html'
     context_object_name = 'article'
 
 
@@ -43,16 +43,22 @@ class ArticleUpdate(UpdateView):
     success_url = reverse_lazy('index')
 
 
-
-
-class ArticleDelete(PermissionRequiredMixin, DeleteView):
-    permission_required = ('news.delete_record',)
+class ArticleDelete(DeleteView):
     model = Article
-    template_name = 'new/news_delete.html'
+    template_name = 'app/delete.html'
     success_url = reverse_lazy('index')
 
 
-
+def create_Article(request):
+    error = ''
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('index')
+    form = ArticleForm()
+    data = {'form': form, 'error': error}
+    return render(request, 'app/create.html', data)
 
 @permission_required('polls.add_choice')
 @login_required

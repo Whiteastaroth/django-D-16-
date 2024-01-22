@@ -9,10 +9,11 @@ class ArticleForm(ModelForm):
 
     class Meta:
         model = Article
-        fields = ['title', 'text',  'category']
+        fields = ['title', 'text',  'category', 'author']
 
         widgets = {
             'title': TextInput(attrs={'class': 'form-control', 'placeholder': 'Название публикации'}),
             'text': Textarea(attrs={'class': 'form-control', 'placeholder': 'Текст публикации'}),
-            'category__title': TextInput(attrs={'class': 'form-control', 'placeholder': 'Категория'})
+            'category__title': TextInput(attrs={'class': 'form-control', 'placeholder': 'Категория'}),
+            'author__title': TextInput(attrs={'class': 'form-control', 'placeholder': 'Автор'})
         }

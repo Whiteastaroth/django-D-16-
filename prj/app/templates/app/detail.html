@@ -1,8 +1,10 @@
 {% extends 'app/default.html' %}
 
 
-{% block title %}
+{% block content %}
 
+
+<h2>{{ article.category  }}</h2>
 <h3>{{ article.title }}</h3>
 <p>{{ article.text|safe }}</p>
 <p>{{ article.author  }}</p>
