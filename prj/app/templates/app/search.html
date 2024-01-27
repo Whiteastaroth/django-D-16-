@@ -16,7 +16,7 @@
             {% for el in article %}
                     <div class="alert alert-warning">
                     <h3>{{ el.title }}</h3>
-                    <p>{{ el.text|safe|truncatechars:20 }}</p>
+                    <p>{{ el.text|safe }}</p>
                         <p>{{el.author}}</p>
                         <a href="{% url 'article_id' el.id %}" class="btn btn-warning">Читать дальше</a>
                     </div>

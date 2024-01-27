@@ -1,11 +1,11 @@
 from django.forms import ModelForm, TextInput, Textarea
 from .models import Article
 
+
 class ArticleForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['category'].empty_label = 'вы не выбрали категорию'
-
+        self.fields['author'].empty_label = 'выберите автора'
 
     class Meta:
         model = Article

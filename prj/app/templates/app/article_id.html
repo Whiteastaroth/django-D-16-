@@ -7,7 +7,7 @@
 <div class="features">
     <h2>{{ article.category  }}</h2>
 <h1>{{ article.title }}</h1>
-<p>{{ article.text }}</p>
+<p>{{ article.text|safe }}</p>
   <p>{{ article.author  }}</p>
    <a href="{% url 'updata' article.id %}" class="btn btn-info">Редактировать</a>
     <a href="{% url 'delete' article.id %}" class="btn btn-danger">Удалить</a>
