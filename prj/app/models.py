@@ -35,7 +35,3 @@ class UserResponse(models.Model):
     status = models.BooleanField(default=False)
 
 
-
-
-
-# Create your models here.

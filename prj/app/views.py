@@ -1,9 +1,10 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .forms import ArticleForm
+from .filters import ArticleFilter
 from .models import Article
 from django.urls import reverse_lazy
 
@@ -28,41 +29,40 @@ class SearchList(ListView):
     context_object_name = 'article'
     paginate_by = 10
 
+    def get_queryset(self):
+        return ArticleFilter(self.request.GET, queryset=super().get_queryset()).qs
 
-class ArticleCreate(CreateView):
+    def get_context_data(self, *args, **kwargs):
+        return {**super().get_context_data(*args, **kwargs), 'filter': self.get_queryset(), }
+
+
+class ArticleCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
     model = Article
     form_class = ArticleForm
     template_name = 'app/create.html'
 
 
-class ArticleUpdate(UpdateView):
+class ArticleUpdate(LoginRequiredMixin, UpdateView):
     model = Article
     form_class = ArticleForm
     template_name = 'app/create.html'
     success_url = reverse_lazy('index')
 
 
-class ArticleDelete(DeleteView):
+class ArticleDelete(LoginRequiredMixin, DeleteView):
     model = Article
     template_name = 'app/delete.html'
     success_url = reverse_lazy('index')
 
 
-def create_Article(request):
-    error = ''
-    if request.method == 'POST':
-        form = ArticleForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return redirect('index')
-    form = ArticleForm()
-    data = {'form': form, 'error': error}
-    return render(request, 'app/create.html', data)
+
+
 
 @permission_required('polls.add_choice')
 @login_required
 def my_view (request):
-    return PermissionRequiredMixin()
+    return LoginRequiredMixin()
 
 
 

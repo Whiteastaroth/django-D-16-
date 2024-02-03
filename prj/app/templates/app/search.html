@@ -9,9 +9,11 @@
         <form action="" method="get">
             {% csrf_token %}
 
-            {{ form.media }}
-            {{ form.as_p }}
+            {{ filter.form.media }}
+            {{ filter.form.as_p }}
 
+            <input type="submit" value="Найти" />
+             </form>
      {% if article %}
             {% for el in article %}
                     <div class="alert alert-warning">
@@ -26,7 +28,6 @@
         {% endif %}
 
        {% if page_obj.has_previous %}
-
            {% if page_obj.previous_page_number != 1 %}
                ...
 
@@ -34,12 +35,9 @@
        {% endif %}
 
        {{ page_obj.number }}
-
        {% if page_obj.has_next %}
-
            {% if paginator.num_pages != page_obj.next_page_number %}
                ...
-
            {% endif %}
        {% endif %}
     </div>
