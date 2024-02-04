@@ -5,7 +5,6 @@ from .models import Article
 class ArticleForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['author'].empty_label = 'выберите автора'
 
     class Meta:
         model = Article
@@ -15,5 +14,4 @@ class ArticleForm(ModelForm):
             'title': TextInput(attrs={'class': 'form-control', 'placeholder': 'Название публикации'}),
             'text': Textarea(attrs={'class': 'form-control', 'placeholder': 'Текст публикации'}),
             'category__title': TextInput(attrs={'class': 'form-control', 'placeholder': 'Категория'}),
-            'author__title': TextInput(attrs={'class': 'form-control', 'placeholder': 'Автор'})
         }

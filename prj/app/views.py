@@ -30,10 +30,14 @@ class SearchList(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return ArticleFilter(self.request.GET, queryset=super().get_queryset()).qs
+        queryset = super().get_queryset()
+        self.filter = ArticleFilter(self.request.GET, queryset)
+        return self.filter.qs
 
     def get_context_data(self, *args, **kwargs):
-        return {**super().get_context_data(*args, **kwargs), 'filter': self.get_queryset(), }
+        context = super().get_context_data(*args, **kwargs)
+        context['filter'] = self.filter
+        return context
 
 
 class ArticleCreate(LoginRequiredMixin, CreateView):
@@ -64,6 +68,18 @@ class ArticleDelete(LoginRequiredMixin, DeleteView):
 def my_view (request):
     return LoginRequiredMixin()
 
+#def usual_login_view(request):
+#    username = request.POST['username']
+#    password = request.POST['password']
+#    user = authenticate(request, username=username, password=password)
+#    is user is not None:
+#    OneTimeCode.objects.create(code=randome.choice('abcde'), user=user)
+#    else:
+
+
+#def login_with_code_view(request):
+#    username = request.POST['username']
+#    code = request.POST['code']
 
 
 #class MyView(LoginRequiredMixin, View):

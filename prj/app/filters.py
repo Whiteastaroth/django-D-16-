@@ -1,4 +1,4 @@
-from django_filters import FilterSet, ModelChoiceFilter, CharFilter
+from django_filters import FilterSet, CharFilter, ChoiceFilter, AuthorFilter
 from .models import Article
 
 TYPE = (
@@ -16,10 +16,12 @@ TYPE = (
 
 
 class ArticleFilter(FilterSet):
-    category = ModelChoiceFilter(field_name='category__title',
-                                 queryset=Article.objects.all(),
-                                 label='Категория',
-                                 empty_label='Любой'
-                                 )
+    category = ChoiceFilter(field_name='category',
+                            choices=Article.TYPE,
+                            label='Категория',
+                            empty_label='Любой'
+                            )
 
     title = CharFilter(lookup_expr='contains', )
+
+    author = AuthorFilter(field_name='author', lookup_expr='gt', label='Автор', widget=AuthorFilter(attrs={'type': 'author'}, ))

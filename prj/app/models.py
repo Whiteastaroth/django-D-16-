@@ -21,6 +21,10 @@ class Article (models.Model):
     text = RichTextField(blank=True, null=True)
     category = models.CharField(max_length=16, choices=TYPE, default='tank')
 
+    def preview(self):
+        preview = f'{self.text[:128]}...'
+        return preview
+
     def __str__(self):
         return self.title
 
