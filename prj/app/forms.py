@@ -3,12 +3,10 @@ from .models import Article
 
 
 class ArticleForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
 
     class Meta:
         model = Article
-        fields = ['title', 'text',  'category', 'author']
+        fields = ['title', 'text',  'category']
 
         widgets = {
             'title': TextInput(attrs={'class': 'form-control', 'placeholder': 'Название публикации'}),

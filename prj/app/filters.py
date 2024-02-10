@@ -1,4 +1,4 @@
-from django_filters import FilterSet, CharFilter, ChoiceFilter, AuthorFilter
+from django_filters import FilterSet, CharFilter, ChoiceFilter
 from .models import Article
 
 TYPE = (
@@ -23,5 +23,3 @@ class ArticleFilter(FilterSet):
                             )
 
     title = CharFilter(lookup_expr='contains', )
-
-    author = AuthorFilter(field_name='author', lookup_expr='gt', label='Автор', widget=AuthorFilter(attrs={'type': 'author'}, ))

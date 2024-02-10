@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+
 from .forms import ArticleForm
 from .filters import ArticleFilter
 from .models import Article
@@ -46,6 +46,12 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
     form_class = ArticleForm
     template_name = 'app/create.html'
 
+    def form_valid(self, form):
+        article = form.save(commit= False)
+        article.author = self.request.user
+        article.save()
+        return super().form_valid(form)
+
 
 class ArticleUpdate(LoginRequiredMixin, UpdateView):
     model = Article
@@ -68,18 +74,7 @@ class ArticleDelete(LoginRequiredMixin, DeleteView):
 def my_view (request):
     return LoginRequiredMixin()
 
-#def usual_login_view(request):
-#    username = request.POST['username']
-#    password = request.POST['password']
-#    user = authenticate(request, username=username, password=password)
-#    is user is not None:
-#    OneTimeCode.objects.create(code=randome.choice('abcde'), user=user)
-#    else:
 
-
-#def login_with_code_view(request):
-#    username = request.POST['username']
-#    code = request.POST['code']
 
 
 #class MyView(LoginRequiredMixin, View):
