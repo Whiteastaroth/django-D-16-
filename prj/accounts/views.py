@@ -36,21 +36,21 @@ class GetCode(CreateView):
 
     def get_context_data(self, **kwargs):
         username = self.kwargs.get('user')
-        if not OneTimeCode.objects.filter(user=username).exits():
+        if not OneTimeCode.objects.filter(user=username).exists():
             code = ''.join(random.sample(hexdigits, 5))
             OneTimeCode.objects.create(user=username, code=code)
             user = User.objects.get(username=username)
             send_mail(
                 subject=f'Код активации',
                 message=f' Код активации аккаунта:, {code}',
-                from_email=settings.DAFAULT_FROM_EMAIL,
+                from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[user.email],
             )
 
     def post(self, request, *args, **kwargs):
         if 'code' in request.POST:
             user = request.path.splite('/')[-1]
-            if OneTimeCode.objects.filter(code=request.POST['code'], user=user).exits():
+            if OneTimeCode.objects.filter(code=request.POST['code'], user=user).exists():
                 User.objects.filter(username=user).update(is_active=True)
                 OneTimeCode.objects.filter(code=request.POST['code'], user=user).delite()
             else:

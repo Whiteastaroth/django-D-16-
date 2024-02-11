@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
 
     'app',
+    'accounts',
     'ckeditor',
     'django_filters',
 ]
@@ -161,7 +162,6 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DAFAULT_FROM_EMAIL = 'DEFAULT_FROM_EMAIL'
 EMAIL_HOST = 'smpt.yoursmtpserver.ru'
 EMAIL_POST = 465
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
