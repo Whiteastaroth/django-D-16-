@@ -8,9 +8,10 @@ from allauth.account.forms import SignupForm
 
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(label="Email")
-    first_name = forms.CharField(label="Имя")
-    last_name = forms.CharField(label="Фамилия")
+
+    class Meta:
+        Model = User
+        fields = ('username', 'email')
 
 
 class CustomSignupForm(SignupForm):
