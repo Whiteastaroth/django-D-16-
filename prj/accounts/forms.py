@@ -10,7 +10,7 @@ from allauth.account.forms import SignupForm
 class SignUpForm(UserCreationForm):
 
     class Meta:
-        Model = User
+        model = User
         fields = ('username', 'email')
 
 

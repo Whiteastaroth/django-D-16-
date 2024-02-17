@@ -13,7 +13,7 @@ from .forms import SignUpForm
 class SignUp(CreateView):
     model = User
     form_class = SignUpForm
-    success_url = '/accounts/login'
+    #success_url = '/accounts/login'
     template_name = 'registration/signup.html'
 
     def get_context_data(self, **kwargs):
@@ -31,7 +31,7 @@ class SignUp(CreateView):
 
 
 class GetCode(CreateView):
-    success_url = 'accounts/code'
+    #success_url = 'accounts/code'
     template_name = 'registration/code.html'
 
     def get_context_data(self, **kwargs):
@@ -52,6 +52,7 @@ class GetCode(CreateView):
             user = request.path.split('/')[-1]
             if OneTimeCode.objects.filter(code=request.POST['code'], user=user).exists():
                 User.objects.filter(username=user).update(is_active=True)
-                OneTimeCode.objects.filter(code=request.POST['code'], user=user).delite()
+                OneTimeCode.objects.filter(code=request.POST['code'], user=user).delete()
             else:
                 return render(self.request, 'accounts/invalid_code.html')
+            return redirect('login')
