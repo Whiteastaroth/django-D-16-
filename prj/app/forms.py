@@ -21,9 +21,9 @@ class UserResponseForm(ModelForm):
         model = UserResponse
         fields = ['text',]
         labels = {
-            'text' : 'Комментируйте'
+            'text': 'Комментируйте'
         }
 
         widgets = {
-            'text': Textarea(attrs={'class': 'form-text', 'cols': 200, 'rows': 3}),
+            'text': Textarea(attrs={'class': 'form-text', 'cols': 200, 'rows': 4}),
         }

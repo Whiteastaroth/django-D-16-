@@ -4,6 +4,7 @@
 
 
 {% block content %}
+{% if article  %}
 <div class="features">
     <h2>{{ article.category  }}</h2>
 <h1>{{ article.title }}</h1>
@@ -15,14 +16,14 @@
 {% endif %}
     <form action="{url 'comment_create' article.id}" method="post">
         {% csrf_token %}
-        {{ from }}
+        {{ form }}
         <input type="submit" value="Прокомментировать">
     </form>
 {% if article.comment_set.all %}
     <h4>Все комментарии:</h4>
     {% for comment in article.comment_set.all %}
-    <p>{{ comment.author.username }}</p>
-    <p>{{comment.text}}</p>
+    <p>{{ comment.author.username|safe }}</p>
+    <p>{{comment.text|safe}}</p>
 </div>
 {% endfor %}
 {% endif %}

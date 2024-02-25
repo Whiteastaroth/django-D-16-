@@ -29,6 +29,13 @@ class CommentCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class CommentUpdate(UpdateView, LoginRequiredMixin):
+    model = UserResponse
+    template_name = 'app/comment.html'
+    form_class = UserResponseForm
+    success_url = reverse_lazy('index')
+
+
 class ArticleDetailView( DetailView, CommentCreate):
     model = Article
     template_name = 'app/article_id.html'

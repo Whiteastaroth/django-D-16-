@@ -39,5 +39,8 @@ class UserResponse(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f'{self.author} : {self.text} [:20] + ...'
+
     def get_absolute_url(self):
         return reverse( 'article_id', kwargs={'pk': self.article_id})
