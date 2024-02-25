@@ -3,9 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
-from .forms import ArticleForm
+from .forms import ArticleForm, UserResponseForm
 from .filters import ArticleFilter
-from .models import Article
+from .models import Article, UserResponse
 from django.urls import reverse_lazy
 
 
@@ -16,7 +16,20 @@ class ArticleList(ListView):
     paginate_by = 10
 
 
-class ArticleDetailView(DetailView):
+class CommentCreate(LoginRequiredMixin, CreateView):
+    model = UserResponse
+    template_name = 'app/article_id.html'
+    form_class = UserResponseForm
+
+    def form_valid(self, form):
+        comment = form.save(commit = False)
+        comment.author = self.request.user
+        comment.article_id = self.kwargs['pk']
+        comment.save()
+        return super().form_valid(form)
+
+
+class ArticleDetailView( DetailView, CommentCreate):
     model = Article
     template_name = 'app/article_id.html'
     context_object_name = 'article'

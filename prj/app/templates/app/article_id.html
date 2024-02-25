@@ -12,7 +12,18 @@
    <a href="{% url 'updata' article.id %}" class="btn btn-info">Редактировать</a>
     <a href="{% url 'delete' article.id %}" class="btn btn-danger">Удалить</a>
 
-
-
+{% endif %}
+    <form action="{url 'comment_create' article.id}" method="post">
+        {% csrf_token %}
+        {{ from }}
+        <input type="submit" value="Прокомментировать">
+    </form>
+{% if article.comment_set.all %}
+    <h4>Все комментарии:</h4>
+    {% for comment in article.comment_set.all %}
+    <p>{{ comment.author.username }}</p>
+    <p>{{comment.text}}</p>
 </div>
+{% endfor %}
+{% endif %}
 {% endblock %}

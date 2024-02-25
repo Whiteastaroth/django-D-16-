@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 from ckeditor.fields import RichTextField
 
 
@@ -33,9 +34,10 @@ class Article (models.Model):
 
 
 class UserResponse(models.Model):
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
 
-
+    def get_absolute_url(self):
+        return reverse( 'article_id', kwargs={'pk': self.article_id})
