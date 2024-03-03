@@ -36,7 +36,7 @@ class CommentUpdate(UpdateView, LoginRequiredMixin):
     success_url = reverse_lazy('index')
 
 
-class ArticleDetailView( DetailView, CommentCreate):
+class ArticleDetailView(DetailView, CommentCreate):
     model = Article
     template_name = 'app/article_id.html'
     context_object_name = 'article'

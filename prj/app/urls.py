@@ -10,5 +10,5 @@ urlpatterns = [
     path('<int:pk>/updata', ArticleUpdate.as_view(), name='updata'),
     path('<int:pk>/delete/', ArticleDelete.as_view(), name='delete'),
     path('<int:pk>/comment/create/', CommentCreate.as_view(), name='comment_create'),
-    path('<int:pk>/comment/update/', CommentUpdate.as_view(), name='comment_update'),
+    path('<int:pk>/comment/update/', CommentUpdate.as_view(), name='comment_edit'),
 ]
