@@ -151,19 +151,34 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/app/'
 LOGOUT_REDIRECT_URL = '/'
 
-
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 ACCOUNT_EMAIL_UNIQUE = True
 ACCOUNT_EMAIL_CONFIRMATION_REQUIRED = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_POST = 465
-EMAIL_HOST_USER = 'prj387'
-EMAIL_HOST_PASSWORD = 'xnlcuegjfhhwqxxy'
+EMAIL_HOST_USER = 'voronin.sergei2002'
+EMAIL_HOST_PASSWORD = 'pglkckgaapnwbepv'
 EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = 'prj387@yandex.ru'
+DEFAULT_FROM_EMAIL = 'voronin.sergei2002@yandex.ru'
+
+#EMAIL_HOST_USER = 'voronin.sergei2002'
+#EMAIL_HOST_PASSWORD = 'klmahldzmzxxcqxf'
+
+
+#DEFAULT_FROM_EMAIL = 'voronin.sergei2002@yandex.ru'
 
 CKEDITOR_CONFIGS = {
     "default": {

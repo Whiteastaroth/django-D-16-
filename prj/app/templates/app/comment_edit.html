@@ -7,9 +7,13 @@
 {% block content %}
 <h2> Редактирование комментария "{{ comment.text }}": </h2>
 <hr>
+{% if user == text_author %}
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Обновить</button>
   </form>
+{% else %}
+<h3>Вы не можете редактировать чужие комментрарий!</h3>
+{% endif %}
 {% endblock  %}

@@ -1,12 +1,14 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+
 
 from .forms import ArticleForm, UserResponseForm
 from .filters import ArticleFilter
 from .models import Article, UserResponse
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 
 
 class ArticleList(ListView):
@@ -29,17 +31,33 @@ class CommentCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class CommentUpdate(UpdateView, LoginRequiredMixin):
+class CommentUpdate(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
     model = UserResponse
     template_name = 'app/comment_edit.html'
     form_class = UserResponseForm
     success_url = reverse_lazy('index')
 
+    def test_func(self):
+        return self.request.user.email.endswith("@example.com")
 
-class CommentDelete(DeleteView, LoginRequiredMixin):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['text_author'] = UserResponse.objects.get(pk=self.kwargs.get('pk')).author
+        return context
+
+
+class CommentDelete(DeleteView, LoginRequiredMixin, UserPassesTestMixin):
     model = UserResponse
     template_name = 'app/comment_delete.html'
     success_url = reverse_lazy('index')
+
+    def test_func(self):
+        return self.request.user.email.endswith("@example.com")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['text_author'] = UserResponse.objects.get(pk=self.kwargs.get('pk')).author
+        return context
 
 
 class ArticleDetailView(DetailView, CommentCreate):
@@ -79,11 +97,19 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ArticleUpdate(LoginRequiredMixin, UpdateView):
+class ArticleUpdate(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
     model = Article
     form_class = ArticleForm
     template_name = 'app/create.html'
     success_url = reverse_lazy('index')
+
+    def test_func(self):
+        return self.request.user.email.endswith("@example.com")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['text_author'] = Article.objects.get(pk=self.kwargs.get('pk')).author
+        return context
 
 
 class ArticleDelete(LoginRequiredMixin, DeleteView):
