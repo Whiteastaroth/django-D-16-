@@ -100,7 +100,7 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
 class ArticleUpdate(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
     model = Article
     form_class = ArticleForm
-    template_name = 'app/create.html'
+    template_name = 'app/edit.html'
     success_url = reverse_lazy('index')
 
     def test_func(self):
@@ -112,10 +112,18 @@ class ArticleUpdate(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
         return context
 
 
-class ArticleDelete(LoginRequiredMixin, DeleteView):
+class ArticleDelete(LoginRequiredMixin, DeleteView, UserPassesTestMixin):
     model = Article
     template_name = 'app/delete.html'
     success_url = reverse_lazy('index')
+
+    def test_func(self):
+        return self.request.user.email.endswith("@example.com")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['text_author'] = Article.objects.get(pk=self.kwargs.get('pk')).author
+        return context
 
 
 

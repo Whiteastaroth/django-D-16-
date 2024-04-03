@@ -1,4 +1,4 @@
-<{% extends 'default.html' %}
+{% extends 'app/default.html' %}
 
 {% block content %}
   <h2>Редактирование новости</h2>
@@ -10,6 +10,6 @@
     <button type="submit">Обновить</button>
   </form>
 {% else %}
-<h3>Вы не можете редактировать чужие комментрарий!</h3>
+<h3>Вы не можете редактировать чужие Публикации!</h3>
 {% endif %}
 {% endblock %}

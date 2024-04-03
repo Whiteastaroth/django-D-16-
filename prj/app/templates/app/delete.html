@@ -3,6 +3,7 @@
 {% block title %}Удаление публикации{% endblock %}
 
 {% block content %}
+{% if user == text_author %}
     <div class="features">
         <h1>Удаление публикации</h1>
         <form method="post">
@@ -10,5 +11,8 @@
             <span>{{ error }}</span>
             <button class="btn btn-success" type ="submit">Удалить статью</button>
         </form>
+        {% else %}
+<h3>Вы не можете удалить чужие Публикации!</h3>
+        {% endif %}
     </div>
             {% endblock %}
